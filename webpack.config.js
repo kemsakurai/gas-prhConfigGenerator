@@ -1,6 +1,5 @@
 const path = require('path');
 const GasPlugin = require("gas-webpack-plugin");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -25,10 +24,6 @@ module.exports = {
     ]    
   },
   plugins: [
-    new GasPlugin(),
-    new HtmlWebpackPlugin({
-      filename: "./dialog.html",
-      template: "./src/dialog.html"
-    })
+    new GasPlugin()
   ]
 };

@@ -7,13 +7,16 @@ export const genPrhConfig = (): string => {
   if (!sheet) {
     throw new Error('初期化してください');
   }
-  let range = sheet.getRange(1, 1, sheet.getLastRow(), 3);
+  let range = sheet.getRange(2, 1, sheet.getLastRow(), 3);
   let values = range.getValues();
   let output = 'version: 1\n';
   output += 'rules:\n';
   for (let value of values) {
-    output += '  - expected: ' + value[0] + '\n';
-    output += '    pattern: ' + value[1] + '\n';
+    if (value[0] == '' || value[1] == '') {
+      continue;
+    }
+    output += '  - expected: ' + Utils.regExpEscape(value[0]) + '\n';
+    output += '    pattern: ' + Utils.regExpEscape(value[1]) + '\n';
     if (value[2] != '') {
       output += '    prh: ' + value[2] + '\n';
     }
