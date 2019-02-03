@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script type='text/javascript'>    
+      function handleDownload() {
+        // 出力データを GAS から取得する
+        var content = <?= genPrhConfig(); ?>;
+        var blob = new Blob([ content ], { "type" : "text/csv"});
+        document.getElementById("download").href = window.URL.createObjectURL(blob);
+      }
+  </script>
+  </head>
+  <body>
+    <a id="download" href="#" download="prh.yml" onclick="handleDownload()">ダウンロード</a>
+  </body>
+</html>
