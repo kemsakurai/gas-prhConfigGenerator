@@ -7,18 +7,28 @@ export const genPrhConfig = (): string => {
   if (!sheet) {
     throw new Error('初期化してください');
   }
-  let range = sheet.getRange(2, 1, sheet.getLastRow(), 3);
+  let range = sheet.getRange(2, 1, sheet.getLastRow(), 2);
   let values = range.getValues();
   let output = 'version: 1\n';
   output += 'rules:\n';
+  let dictionary = {};
   for (let value of values) {
     if (value[0] == '' || value[1] == '') {
       continue;
     }
-    output += '  - expected: ' + Utils.regExpEscape(value[0]) + '\n';
-    output += '    pattern: ' + Utils.regExpEscape(value[1]) + '\n';
-    if (value[2] != '') {
-      output += '    prh: ' + value[2] + '\n';
+    if (typeof dictionary[String(value[0])] === 'undefined') {
+      let patterns = [];
+      patterns.push(value[1]);
+      dictionary[String(value[0])] = patterns;
+    } else {
+      dictionary[String(value[0])].push(value[1]);
+    }
+  }
+  for (let key in dictionary) {
+    output += '  - expected: ' + Utils.regExpEscape(key) + '\n';
+    output += '    pattern:\n';
+    for (let elem of dictionary[key]) {
+      output += '        - ' + Utils.regExpEscape(elem) + '\n';
     }
   }
   Logger.log('genPrhConfig end');

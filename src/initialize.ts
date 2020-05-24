@@ -7,12 +7,11 @@ export const initialize = (): void => {
   if (!sheet) {
     sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet();
     sheet.setName(configSheetName);
-    const range = sheet.getRange('A1:C1');
+    const range = sheet.getRange('A1:B1');
     range.setBackground('yellow');
     const headers: string[] = new Array();
     headers.push('expected');
     headers.push('pattern');
-    headers.push('prh');
     range.setValues([headers]);
   }
   Logger.log('initialize end');
